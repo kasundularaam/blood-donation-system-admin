@@ -115,15 +115,18 @@ const AddNurse = () => {
   };
 
   const addToDatabase = () => {
-    const newNurse = { ...nurse, dob: new Date(nurse.dob).getTime() };
-
     setLoading(true);
-    createUserWithEmailAndPassword(auth, newNurse.email, newNurse.password)
+    createUserWithEmailAndPassword(auth, nurse.email, nurse.password)
       .then((userCredential) => {
         const uid = userCredential.user.uid;
+        const newNurse = {
+          ...nurse,
+          dob: new Date(nurse.dob).getTime(),
+          uid: uid,
+        };
         setDoc(doc(db, "userMap", newNurse.nic), { userType: "nurse" })
           .then((userMapData) => {
-            setDoc(doc(db, "nurse", uid), newNurse)
+            setDoc(doc(db, "nurse", newNurse.nic), newNurse)
               .then((nurseData) => {
                 setLoading(false);
                 showSucceedMessage();

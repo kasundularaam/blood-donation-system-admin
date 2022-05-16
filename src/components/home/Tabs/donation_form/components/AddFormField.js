@@ -75,7 +75,7 @@ const AddFormField = () => {
 
   const addToDatabase = () => {
     setLoading(true);
-    const ref = doc(collection(db, "donationForm"));
+    const ref = doc(collection(db, "formField"));
     const newQuestion = { ...formField, id: ref.id };
     setDoc(ref, newQuestion)
       .then((questionData) => {

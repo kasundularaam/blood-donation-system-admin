@@ -22,7 +22,7 @@ const ShowNurses = () => {
   useEffect(() => {
     loadNurses();
   }, []);
-
+ 
   return (
     <>
       <Row>
@@ -47,11 +47,11 @@ const ShowNurses = () => {
           </tr>
         </thead>
         <tbody>
-          {nurses.map((doctor) => (
-            <tr key={doctor.nic}>
-              <td>{doctor.name}</td>
-              <td>{doctor.nic}</td>
-              <td>{doctor.hospital}</td>
+          {nurses.map((nurse) => (
+            <tr key={nurse.nic}>
+              <td>{nurse.name}</td>
+              <td>{nurse.nic}</td>
+              <td>{nurse.hospital}</td>
             </tr>
           ))}
         </tbody>

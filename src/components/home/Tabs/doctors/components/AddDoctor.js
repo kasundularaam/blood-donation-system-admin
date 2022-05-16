@@ -115,15 +115,18 @@ const AddDoctor = () => {
   };
 
   const addToDatabase = () => {
-    const newDoctor = { ...doctor, dob: new Date(doctor.dob).getTime() };
-
     setLoading(true);
-    createUserWithEmailAndPassword(auth, newDoctor.email, newDoctor.password)
+    createUserWithEmailAndPassword(auth, doctor.email, doctor.password)
       .then((userCredential) => {
         const uid = userCredential.user.uid;
+        const newDoctor = {
+          ...doctor,
+          dob: new Date(doctor.dob).getTime(),
+          uid: uid,
+        };
         setDoc(doc(db, "userMap", newDoctor.nic), { userType: "doctor" })
           .then((userMapData) => {
-            setDoc(doc(db, "doctor", uid), newDoctor)
+            setDoc(doc(db, "doctor", newDoctor.nic), newDoctor)
               .then((doctorData) => {
                 setLoading(false);
                 showSucceedMessage();
@@ -147,6 +150,7 @@ const AddDoctor = () => {
         showFailedMessage();
       });
   };
+
   return (
     <Container fluid>
       <Row>

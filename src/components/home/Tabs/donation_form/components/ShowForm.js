@@ -12,7 +12,7 @@ const ShowForm = () => {
   const loadFormFields = async () => {
     if (!loading) {
       setLoading(true);
-      getDocs(collection(db, "donationForm")).then((snapshot) => {
+      getDocs(collection(db, "formField")).then((snapshot) => {
         setLoading(false);
         setFormFields(snapshot.docs.map((doc) => doc.data()));
       });
