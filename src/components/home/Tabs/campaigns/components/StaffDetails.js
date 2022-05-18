@@ -1,52 +1,25 @@
 import React, { useState, useEffect } from "react";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "../../../../../App";
 
-import { Button, Modal, Container, Row, Col, Table } from "react-bootstrap";
+import { Button, Modal, Row, Col, Table } from "react-bootstrap";
 
 const StaffDetails = ({ show, onHide, staff }) => {
-  const doctorIds = staff.doctors;
-  const nurseIds = staff.nurses;
-  const [doctors, setDoctors] = useState([]);
-  const [nurses, setNurses] = useState([]);
+  const [staffMembers, setStaffMembers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const db = getFirestore(app);
 
-  const getDoctors = async () => {
-    let doctorList = [];
-    for (const nic of doctorIds) {
-      const q = query(collection(db, "doctor"), where("nic", "==", nic));
-      const qSnap = await getDocs(q);
-      const res = qSnap.docs.map((doc) => doc.data());
-      doctorList.push(res[0]);
-    }
-    setDoctors(doctorList);
-  };
-
-  const getNurses = async () => {
-    let nurseList = [];
-    for (const nic of nurseIds) {
-      const q = query(collection(db, "nurse"), where("nic", "==", nic));
-      const qSnap = await getDocs(q);
-      const res = qSnap.docs.map((doc) => doc.data());
-      nurseList.push(res[0]);
-    }
-    setNurses(nurseList);
-  };
-
   const loadStaff = async () => {
     setLoading(true);
-    await getDoctors();
-    await getNurses();
-
-    setLoading(false);
+    let staffList = [];
+    for (const nic of staff) {
+      const docRef = doc(db, "user", nic);
+      const docSnap = await getDoc(docRef);
+      staffList.push(docSnap.data());
+      setLoading(false);
+    }
+    setStaffMembers(staffList);
   };
 
   useEffect(() => {
@@ -74,54 +47,26 @@ const StaffDetails = ({ show, onHide, staff }) => {
               <Col></Col>
             </Row>
           ) : (
-            <Col>
-              <Row>
-                <Col>
-                  <h4>Doctors</h4>
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Nic</th>
-                        <th>Hospital</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {doctors.map((staffMem) => (
-                        <tr key={staffMem.nic}>
-                          <td>{staffMem.name}</td>
-                          <td>{staffMem.nic}</td>
-                          <td>{staffMem.hospital}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h4>Nurses</h4>
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Nic</th>
-                        <th>Hospital</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {nurses.map((staffMem) => (
-                        <tr key={staffMem.nic}>
-                          <td>{staffMem.name}</td>
-                          <td>{staffMem.nic}</td>
-                          <td>{staffMem.hospital}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-            </Col>
+            <Row>
+              <Table hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Nic</th>
+                    <th>Hospital</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {staffMembers.map((staffMem) => (
+                    <tr key={staffMem.nic}>
+                      <td>{staffMem.name}</td>
+                      <td>{staffMem.nic}</td>
+                      <td>{staffMem.hospital}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Row>
           )}
         </Modal.Body>
         <Modal.Footer>

@@ -4,7 +4,6 @@ import { Container, Row, Col, Nav } from "react-bootstrap";
 
 import Dashboard from "./Tabs/dashboard/Dashboard";
 import Doctors from "./Tabs/doctors/Doctors";
-import Nurses from "./Tabs/nurses/Nurses";
 import Labs from "./Tabs/labs/Labs";
 import BloodBanks from "./Tabs/blood_banks/BloodBanks";
 import DonationForm from "./Tabs/donation_form/DonationForm";
@@ -43,9 +42,10 @@ const HomePage = () => {
                 onClick={() => setActiveTab(1)}
                 role="button"
               >
-                Doctors
+                Hospital staff
               </Nav.Link>
             </Nav.Item>
+
             <Nav.Item className="mb-2">
               <Nav.Link
                 className={
@@ -54,7 +54,7 @@ const HomePage = () => {
                 onClick={() => setActiveTab(2)}
                 role="button"
               >
-                Nurses
+                Labs
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="mb-2">
@@ -65,7 +65,7 @@ const HomePage = () => {
                 onClick={() => setActiveTab(3)}
                 role="button"
               >
-                Labs
+                Blood Banks
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="mb-2">
@@ -76,7 +76,7 @@ const HomePage = () => {
                 onClick={() => setActiveTab(4)}
                 role="button"
               >
-                Blood Banks
+                Donation Form
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="mb-2">
@@ -87,26 +87,15 @@ const HomePage = () => {
                 onClick={() => setActiveTab(5)}
                 role="button"
               >
-                Donation Form
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="mb-2">
-              <Nav.Link
-                className={
-                  "px-4 text-white nav-link " + (activeTab === 6 && "active")
-                }
-                onClick={() => setActiveTab(6)}
-                role="button"
-              >
                 Lab Tests
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link
                 className={
-                  "px-4 text-white nav-link " + (activeTab === 7 && "active")
+                  "px-4 text-white nav-link " + (activeTab === 6 && "active")
                 }
-                onClick={() => setActiveTab(7)}
+                onClick={() => setActiveTab(6)}
                 role="button"
               >
                 campaigns
@@ -117,12 +106,11 @@ const HomePage = () => {
         <Col>
           {activeTab === 0 && <Dashboard />}
           {activeTab === 1 && <Doctors />}
-          {activeTab === 2 && <Nurses />}
-          {activeTab === 3 && <Labs />}
-          {activeTab === 4 && <BloodBanks />}
-          {activeTab === 5 && <DonationForm />}
-          {activeTab === 6 && <LabTests />}
-          {activeTab === 7 && <Campaigns />}
+          {activeTab === 2 && <Labs />}
+          {activeTab === 3 && <BloodBanks />}
+          {activeTab === 4 && <DonationForm />}
+          {activeTab === 5 && <LabTests />}
+          {activeTab === 6 && <Campaigns />}
         </Col>
       </Row>
     </Container>

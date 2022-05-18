@@ -17,11 +17,15 @@ import {
 const AddDoctor = () => {
   const [doctor, setDoctor] = useState({
     nic: "",
+    uid: "",
+    type: "",
     email: "",
+    img: "",
     name: "",
     address: "",
     bloodGroup: "",
     dob: "",
+    status: "",
     mobile: "",
     gender: "",
     hospital: "",
@@ -49,6 +53,11 @@ const AddDoctor = () => {
     { name: "Female", value: "Female" },
   ];
 
+  const types = [
+    { name: "doctor", value: "doctor" },
+    { name: "nurse", value: "nurse" },
+  ];
+
   const auth = getAuth();
 
   const db = getFirestore(app);
@@ -62,15 +71,18 @@ const AddDoctor = () => {
   const clearForm = () => {
     setDoctor({
       nic: "",
+      uid: "",
+      type: "",
       email: "",
+      img: "",
       name: "",
       address: "",
       bloodGroup: "",
       dob: "",
+      status: "",
       mobile: "",
       gender: "",
       hospital: "",
-      password: "",
       lastTestedDate: "",
       donationAbility: "",
     });
@@ -124,23 +136,15 @@ const AddDoctor = () => {
           dob: new Date(doctor.dob).getTime(),
           uid: uid,
         };
-        setDoc(doc(db, "userMap", newDoctor.nic), { userType: "doctor" })
-          .then((userMapData) => {
-            setDoc(doc(db, "doctor", newDoctor.nic), newDoctor)
-              .then((doctorData) => {
-                setLoading(false);
-                showSucceedMessage();
-                clearForm();
-              })
-              .catch((doctorError) => {
-                setLoading(false);
-                console.log(doctorError);
-                showFailedMessage();
-              });
-          })
-          .catch((userMapError) => {
+        setDoc(doc(db, "user", newDoctor.nic), newDoctor)
+          .then((doctorData) => {
             setLoading(false);
-            console.log(userMapError);
+            showSucceedMessage();
+            clearForm();
+          })
+          .catch((doctorError) => {
+            setLoading(false);
+            console.log(doctorError);
             showFailedMessage();
           });
       })
@@ -293,7 +297,28 @@ const AddDoctor = () => {
               </Form.Group>
             </Col>
 
-            <Col></Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label className="mb-2">type</Form.Label>
+                <br />
+                <ButtonGroup>
+                  {types.map((radio) => (
+                    <ToggleButton
+                      key={radio.name}
+                      id={radio.name}
+                      type="radio"
+                      variant={doctor.type === radio.value && "outline-success"}
+                      name="type"
+                      value={radio.value}
+                      checked={doctor.type === radio.value}
+                      onChange={handleChange}
+                    >
+                      {radio.name}
+                    </ToggleButton>
+                  ))}
+                </ButtonGroup>
+              </Form.Group>
+            </Col>
           </Row>
           <Row>
             <Col>

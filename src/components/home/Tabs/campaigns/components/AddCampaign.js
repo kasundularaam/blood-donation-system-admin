@@ -26,11 +26,9 @@ const AddCampaign = () => {
 
   const [location, setLocation] = useState(null);
 
-  const [campaignDoctors, setCampaignDoctors] = useState([]);
-  const [campaignNurses, setCampaignNurses] = useState([]);
+  const [campaignStaff, setCampaignStaff] = useState([]);
 
-  const [doctorNic, setDocNic] = useState("");
-  const [nurseNic, setNurseNic] = useState("");
+  const [staffNic, setStaffNic] = useState("");
 
   const [failed, setFailed] = useState(false);
   const [succeed, setSucceed] = useState(false);
@@ -48,20 +46,12 @@ const AddCampaign = () => {
     setLocation(e.latlng);
   };
 
-  const handleDoctor = (e) => setDocNic(e.target.value);
-  const handleNurse = (e) => setNurseNic(e.target.value);
+  const handleStaff = (e) => setStaffNic(e.target.value);
 
-  const addDoctor = () => {
-    if (doctorNic) {
-      setCampaignDoctors([...campaignDoctors, doctorNic]);
-      setDocNic("");
-    }
-  };
-
-  const addNurse = () => {
-    if (nurseNic) {
-      setCampaignNurses([...campaignNurses, nurseNic]);
-      setNurseNic("");
+  const addStaff = () => {
+    if (staffNic) {
+      setCampaignStaff([...campaignStaff, staffNic]);
+      setStaffNic("");
     }
   };
 
@@ -76,8 +66,7 @@ const AddCampaign = () => {
       end: "",
     });
     setLocation(null);
-    setCampaignDoctors([]);
-    setCampaignNurses([]);
+    setCampaignStaff([]);
   };
 
   const showFailedMessage = () => {
@@ -108,8 +97,7 @@ const AddCampaign = () => {
         campaign.start &&
         campaign.end &&
         location &&
-        campaignDoctors &&
-        campaignNurses
+        campaignStaff
       ) {
         addToDatabase();
       }
@@ -125,8 +113,7 @@ const AddCampaign = () => {
       lat: location.lat,
       long: location.lng,
       date: new Date(campaign.date).getTime(),
-      campaignDoctors: campaignDoctors,
-      campaignNurses: campaignNurses,
+      campaignStaff: campaignStaff,
     };
     setDoc(ref, newCampaign)
       .then((campaignData) => {
@@ -214,27 +201,27 @@ const AddCampaign = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Row className=" mb-3">
+          <Row className=" mb-3 align-items-end">
             <Col>
               <Row className="align-items-end">
                 <Col>
                   <Form.Group>
-                    <Form.Label>Doctors</Form.Label>
+                    <Form.Label>Staff</Form.Label>
                     <Form.Control
                       type="text"
-                      id="docNic"
-                      name="docNic"
-                      onChange={handleDoctor}
-                      value={doctorNic}
+                      id="staffNic"
+                      name="staffNic"
+                      onChange={handleStaff}
+                      value={staffNic}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
-                <Col md="auto">
+                <Col>
                   <Button
                     variant="primary"
                     className="btn-sm"
                     disabled={loading}
-                    onClick={addDoctor}
+                    onClick={addStaff}
                   >
                     Add
                   </Button>
@@ -244,7 +231,7 @@ const AddCampaign = () => {
                 <Row>
                   <Table hover className="m-3">
                     <tbody>
-                      {campaignDoctors.map((nic) => (
+                      {campaignStaff.map((nic) => (
                         <tr key={nic}>
                           <td>{nic}</td>
                         </tr>
@@ -254,46 +241,6 @@ const AddCampaign = () => {
                 </Row>
               </Row>
             </Col>
-            <Col>
-              <Row className="align-items-end">
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Nurses</Form.Label>
-                    <Form.Control
-                      type="text"
-                      id="nurseNic"
-                      name="nurseNic"
-                      onChange={handleNurse}
-                      value={nurseNic}
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col md="auto">
-                  <Button
-                    variant="primary"
-                    className="btn-sm"
-                    disabled={loading}
-                    onClick={addNurse}
-                  >
-                    Add
-                  </Button>
-                </Col>
-              </Row>
-              <Row>
-                <Table hover className="m-3">
-                  <tbody>
-                    {campaignNurses.map((nic) => (
-                      <tr key={nic}>
-                        <td>{nic}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Row>
-            </Col>
-          </Row>
-          <Row className="m-5">
-            <Col></Col>
             <Col md="auto">
               <Button
                 variant="primary"
@@ -303,7 +250,6 @@ const AddCampaign = () => {
                 {loading ? "Loading..." : "Add Campaign"}
               </Button>
             </Col>
-            <Col></Col>
           </Row>
         </Col>
       </Form>

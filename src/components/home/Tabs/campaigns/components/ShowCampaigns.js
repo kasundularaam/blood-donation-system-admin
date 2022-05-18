@@ -47,10 +47,7 @@ const ShowCampaigns = () => {
           key={campaign.id}
           show={show}
           onHide={handleClose}
-          staff={{
-            doctors: campaign.campaignDoctors,
-            nurses: campaign.campaignNurses,
-          }}
+          staff={campaign.campaignStaff}
         />
       ))}
 

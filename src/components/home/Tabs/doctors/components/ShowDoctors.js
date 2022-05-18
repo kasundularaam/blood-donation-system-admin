@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../../../../../App";
 import { Button, Row, Col, Table } from "react-bootstrap";
 
@@ -12,10 +18,10 @@ const ShowDoctors = () => {
   const loadDoctors = async () => {
     if (!loading) {
       setLoading(true);
-      getDocs(collection(db, "doctor")).then((snapshot) => {
-        setLoading(false);
-        setDoctors(snapshot.docs.map((doc) => doc.data()));
-      });
+      const q = query(collection(db, "user"), where("type", "!=", "user"));
+      const querySnapshot = await getDocs(q);
+      setLoading(false);
+      setDoctors(querySnapshot.docs.map((doc) => doc.data()));
     }
   };
 
@@ -43,6 +49,7 @@ const ShowDoctors = () => {
           <tr>
             <th>Name</th>
             <th>NIC</th>
+            <th>Type</th>
             <th>Hospital</th>
           </tr>
         </thead>
@@ -51,6 +58,7 @@ const ShowDoctors = () => {
             <tr key={doctor.nic}>
               <td>{doctor.name}</td>
               <td>{doctor.nic}</td>
+              <td>{doctor.type}</td>
               <td>{doctor.hospital}</td>
             </tr>
           ))}

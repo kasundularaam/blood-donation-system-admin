@@ -10,7 +10,9 @@ const Doctors = () => {
     <Col>
       <Row className="py-1 bg-light mb-4 align-items-center">
         <Col>
-          <h2 className="col">{addDoctor ? "New Doctor" : "Doctors"}</h2>
+          <h2 className="col">
+            {addDoctor ? "New Staff member" : "Staff members"}
+          </h2>
         </Col>
         <Col md="auto">
           <Button
