@@ -25,11 +25,11 @@ const AddDoctor = () => {
     address: "",
     bloodGroup: "",
     dob: "",
-    status: "",
+    status: true,
     mobile: "",
     gender: "",
     hospital: "",
-    lastTestedDate: "",
+    lastTestedDate: 0,
     donationAbility: "",
   });
 
